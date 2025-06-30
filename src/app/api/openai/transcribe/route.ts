@@ -2,9 +2,17 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import OpenAI from "openai";
 
-const openai = new OpenAI();
+// Only initialize OpenAI if API key is available
+const openai = process.env.OPENAI_API_KEY ? new OpenAI() : null;
 
 export async function POST(req: Request) {
+  if (!openai) {
+    return NextResponse.json(
+      { error: "OpenAI API key not configured" },
+      { status: 500 }
+    );
+  }
+
   const body = await req.json();
 
   const base64Audio = body.audio;
@@ -17,7 +25,7 @@ export async function POST(req: Request) {
 
   try {
     // Write the audio data to a temporary WAV file synchronously
-    fs.writeFileSync(filePath, audio);
+    fs.writeFileSync(filePath, new Uint8Array(audio));
 
     // Create a readable stream from the temporary WAV file
     const readStream = fs.createReadStream(filePath);

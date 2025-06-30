@@ -32,14 +32,14 @@ export default function Home() {
           <h3 className="text-xl font-semibold">Social Media App</h3>
           <p className="mt-2 text-sm text-gray-600">
             A feature-rich social platform with user profiles, posts, and interactions using
-            Firebase and Next.js.
+            Supabase and Next.js.
           </p>
         </div>
         <div className="border rounded-lg p-6 hover:bg-gray-100 transition-colors">
           <h3 className="text-xl font-semibold">Voice Notes App</h3>
           <p className="mt-2 text-sm text-gray-600">
             A voice-based note-taking app with real-time transcription using Deepgram API, 
-            Firebase integration for storage, and a clean, simple interface built with Next.js.
+            Supabase integration for storage, and a clean, simple interface built with Next.js.
           </p>
         </div>
       </div>

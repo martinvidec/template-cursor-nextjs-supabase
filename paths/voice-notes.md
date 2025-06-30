@@ -1,24 +1,29 @@
 # Voice Notes App
 
-## Path system prompt:
-You are an expert in TypeScript, Next.js App Router, React, and Tailwind. Follow @Next.js docs for Data Fetching, Rendering, and Routing. 
+Create a voice-based note-taking application with real-time transcription capabilities.
 
+## Flow
 
-## App description:
-I want to create a voice-based note-taking app. 
+1. User clicks "Start Recording" button
+2. The app requests microphone permission
+3. Audio is captured and sent to Deepgram API for real-time transcription
+4. The transcribed text appears in real-time as the user speaks
+5. User clicks "Stop Recording" to end the session
+6. The final transcription is displayed
+7. User can optionally edit the transcription
+8. The note is saved with timestamp and transcription
+9. User can view all their saved voice notes in a list
+10. User can search through their notes
+11. User can delete notes they no longer need
 
+## Additional Features
 
-## App flow and functionality:
+- Real-time audio visualization during recording
+- Ability to play back the original audio recording
+- Export notes as text files
+- Categorize notes with tags
+- After there is done recording, the note is automatically saved with the date, time, and the transcription of the voice note into the Supabase database.
 
-The flow of the app is as follows:
-- User opens the app, and there is a play/start button to start recording your voice.
-- When the user clicks on the button, it asks for permission to access the microphone.
-- If the user clicks allow, the app starts recording and the button changes to a stop button.
-- When the user clicks on the stop button, the app stops recording and transcribes the voice note using the Deepgram real-time voice API.
-- While the user is speaking, there is a clean, simple animation on the screen along with the realtime transcription of the voice note.
-- The user can click the stop button to stop the recording.
-- After ther is done recording, the note is automatically saved with the date, time, and the transcription of the voice note into the Firebase Firestore database.
-- Now, the app displays the note in a list of all notes on the home screen.
+## Implementation Notes
 
-
-This application is set-up with existing configuration for Deepgram APIs and Firebase. Implement all the functionality in the flow above while using the existing codebase as a starting point, but fully modify the codebase to fit the flow and functionality described above.
+This application is set-up with existing configuration for Deepgram APIs and Supabase. Implement all the functionality in the flow above while using the existing codebase as a starting point, but fully modify the codebase to fit the flow and functionality described above.

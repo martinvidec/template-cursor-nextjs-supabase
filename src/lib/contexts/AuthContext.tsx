@@ -1,9 +1,8 @@
 "use client";
 
 import React, { createContext, useEffect, useState } from "react";
-import { signInWithPopup, GoogleAuthProvider, signOut as firebaseSignOut } from "firebase/auth";
-import { User } from "firebase/auth";
-import { auth } from "../firebase/firebase";
+import { User } from "@supabase/supabase-js";
+import { supabase } from "../supabase/supabase";
 
 interface AuthContextType {
   user: User | null;
@@ -24,28 +23,48 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
       setLoading(false);
     });
 
-    return () => unsubscribe();
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const signInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`
+        }
+      });
+      
+      if (error) {
+        console.error('Error signing in with Google:', error);
+      }
     } catch (error) {
-      console.error("Error signing in with Google", error);
+      console.error('Error signing in with Google:', error);
     }
   };
 
   const signOutUser = async () => {
     try {
-      await firebaseSignOut(auth);
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error('Error signing out:', error);
+      }
     } catch (error) {
-      console.error("Error signing out", error);
+      console.error('Error signing out:', error);
     }
   };
 
